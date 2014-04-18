@@ -1,0 +1,41 @@
+﻿生成启动时间为 2014-4-17 17:59:09。
+     1>项目“D:\android\cocos2d-x-2.2.3\projects\Game\proj.win32\Game.vcxproj”在节点 2 上(build 个目标)。
+     1>InitializeBuildStatus:
+         正在创建“Debug.win32\Game.unsuccessfulbuild”，因为已指定“AlwaysCreate”。
+       ClCompile:
+         D:\Program Files\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /I"D:\android\cocos2d-x-2.2.3\projects\Game\proj.win32\..\..\..\cocos2dx" /I"D:\android\cocos2d-x-2.2.3\projects\Game\proj.win32\..\..\..\cocos2dx\include" /I"D:\android\cocos2d-x-2.2.3\projects\Game\proj.win32\..\..\..\cocos2dx\kazmath\include" /I"D:\android\cocos2d-x-2.2.3\projects\Game\proj.win32\..\..\..\cocos2dx\platform\win32" /I"D:\android\cocos2d-x-2.2.3\projects\Game\proj.win32\..\..\..\cocos2dx\platform\third_party\win32" /I"D:\android\cocos2d-x-2.2.3\projects\Game\proj.win32\..\..\..\cocos2dx\platform\third_party\win32\OGLES" /I"D:\android\cocos2d-x-2.2.3\projects\Game\proj.win32\..\..\..\external" /I"D:\android\cocos2d-x-2.2.3\projects\Game\proj.win32\..\..\..\external\chipmunk\include\chipmunk" /I"D:\android\cocos2d-x-2.2.3\projects\Game\proj.win32\..\..\..\CocosDenshion\include" /I"D:\android\cocos2d-x-2.2.3\projects\Game\proj.win32\..\..\..\extensions" /I..\Classes /I.. /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _WINDOWS /D _USE_MATH_DEFINES /D GL_GLEXT_PROTOTYPES /D CC_ENABLE_CHIPMUNK_INTEGRATION=1 /D COCOS2D_DEBUG=1 /D _CRT_SECURE_NO_WARNINGS /D _SCL_SECURE_NO_WARNINGS /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug.win32\\" /Fd"Debug.win32\vc100.pdb" /Gd /TP /wd4267 /wd4251 /wd4244 /analyze- /errorReport:prompt ..\Classes\FightScene.cpp
+         FightScene.cpp
+       ManifestResourceCompile:
+         所有输出均为最新。
+       PreLinkEvent:
+         if not exist "D:\android\cocos2d-x-2.2.3\projects\Game\proj.win32\Debug.win32\" mkdir "D:\android\cocos2d-x-2.2.3\projects\Game\proj.win32\Debug.win32\"
+         xcopy /Y /Q "D:\android\cocos2d-x-2.2.3\projects\Game\proj.win32\..\..\..\external\libwebsockets\win32\lib\*.*" "D:\android\cocos2d-x-2.2.3\projects\Game\proj.win32\Debug.win32\"
+         :VCEnd
+         复制了 2 个文件
+       Link:
+         D:\Program Files\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"D:\android\cocos2d-x-2.2.3\projects\Game\proj.win32\Debug.win32\Game.exe" /INCREMENTAL /NOLOGO /LIBPATH:"D:\android\cocos2d-x-2.2.3\projects\Game\proj.win32\Debug.win32\\" libExtensions.lib libcocos2d.lib libCocosDenshion.lib opengl32.lib glew32.lib libBox2d.lib libchipmunk.lib libcurl_imp.lib pthreadVCE2.lib websockets.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"Debug.win32\Game.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"D:\android\cocos2d-x-2.2.3\projects\Game\proj.win32\Debug.win32\Game.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:\android\cocos2d-x-2.2.3\projects\Game\proj.win32\Debug.win32\Game.lib" /MACHINE:X86 Debug.win32\Game.exe.embed.manifest.res
+         Debug.win32\AppDelegate.obj
+         Debug.win32\enemy.obj
+         Debug.win32\FightSceneGlobal.obj
+         Debug.win32\FightScene.obj
+         Debug.win32\hero.obj
+         Debug.win32\main.obj
+         "D:\android\cocos2d-x-2.2.3\projects\Game\proj.win32\Debug.win32\libcocos2d.lib"
+         "D:\android\cocos2d-x-2.2.3\projects\Game\proj.win32\Debug.win32\libCocosDenshion.lib"
+         "D:\android\cocos2d-x-2.2.3\projects\Game\proj.win32\Debug.win32\libExtensions.lib"
+         "D:\android\cocos2d-x-2.2.3\projects\Game\proj.win32\Debug.win32\libBox2D.lib"
+         "D:\android\cocos2d-x-2.2.3\projects\Game\proj.win32\Debug.win32\libchipmunk.lib"
+       Manifest:
+         C:\Program Files\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /out:"Debug.win32\Game.exe.embed.manifest" /manifest Debug.win32\Game.exe.intermediate.manifest
+         所有输出均为最新。
+       LinkEmbedManifest:
+         所有输出均为最新。
+         Game.vcxproj -> D:\android\cocos2d-x-2.2.3\projects\Game\proj.win32\Debug.win32\Game.exe
+       FinalizeBuildStatus:
+         正在删除文件“Debug.win32\Game.unsuccessfulbuild”。
+         正在对“Debug.win32\Game.lastbuildstate”执行 Touch 任务。
+     1>已完成生成项目“D:\android\cocos2d-x-2.2.3\projects\Game\proj.win32\Game.vcxproj”(build 个目标)的操作。
+
+生成成功。
+
+已用时间 00:00:04.89
