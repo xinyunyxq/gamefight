@@ -4,8 +4,7 @@
 
 Enemy::Enemy()
 {
-	FightSceneGlobal::instance()->getEnemyArmature()->getAnimation()->play("loading");
-	this->setenemyState(enemyLoading);
+	this->PlayState(enemyRun);
 	this->setenemySpeed(3);
 	this->setisleft(false);
 	this->setHpValue(100);
@@ -50,6 +49,13 @@ void Enemy::PlayState(EnemyState state)
 		{
 			FightSceneGlobal::instance()->getEnemyArmature()->getAnimation()->play("smitten");
 			this->setenemyState(enemySmitten);
+		}
+		break;
+	case enemyDeath:
+		if (this->getenemyState() != enemyDeath)
+		{
+			FightSceneGlobal::instance()->getEnemyArmature()->getAnimation()->play("death");
+			this->setenemyState(enemyDeath);
 		}
 		break;
 	}

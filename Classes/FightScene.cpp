@@ -220,16 +220,65 @@ void FightScene::update(float delta)
 
 void FightScene::enemyUpdate()
 {
+	CCPoint heroPosition = FightSceneGlobal::instance()->getHeroArmature()->getParent()->getPosition();
+	CCPoint enemyPosition = FightSceneGlobal::instance()->getEnemyArmature()->getParent()->getPosition();
+	CCPoint position = enemyPosition - heroPosition;
+	
 	switch(enemy->getenemyState())
 	{
 	case enemyRun:
+		{
+			CCPoint nextPosition = enemyPosition;
+			if(position.x > 150)
+			{
+				nextPosition.x = enemyPosition.x - 0.5 * enemy->getenemySpeed();
+				if(enemy->getisleft() == false)
+				{
+					enemy->setisleft(true);
+					FightSceneGlobal::instance()->getEnemyArmature()->setScaleX(1.0f);
+				}
+			}
+			if (position.x < -150)
+			{
+				nextPosition.x = enemyPosition.x + 0.5 * enemy->getenemySpeed();
+				if(enemy->getisleft() == true)
+				{
+					enemy->setisleft(false);
+					FightSceneGlobal::instance()->getEnemyArmature()->setScaleX(-1.0f);
+				}
+			}
+			if(position.y > 15)
+			{
+				nextPosition.y = enemyPosition.y - 0.5 * enemy->getenemySpeed();
+			}
+			if (position.y < -15)
+			{
+				nextPosition.y = enemyPosition.y + 0.5 * enemy->getenemySpeed();
+			}
+			if(enemy->getEnemyArea(nextPosition).intersectsRect(hero->getHeroArea(heroPosition)))
+			{
+
+			}
+			else
+			{
+				enemyPosition = nextPosition;
+			}
+			FightSceneGlobal::instance()->getEnemyArmature()->getParent()->setPosition(enemyPosition);
+		}
 		break;
 	case enemyAtk:
 		break;
 	case enemySmitten:
 		if (FightSceneGlobal::instance()->getEnemyArmature()->getAnimation()->getIsComplete())
 		{
-			enemy->PlayState(enemyLoading);
+			if (enemy->getHpValue() <=0 )
+			{
+				enemy->PlayState(enemyDeath);
+			}
+			else
+			{
+				enemy->PlayState(enemyLoading);
+			}
 		}
 		break;
 	case enemyLoading:

@@ -7,6 +7,7 @@ typedef enum
 	heroRun,
 	heroAtk,
 	heroSmitten,
+	heroDeath,
 }HeroState;
 
 typedef enum
@@ -15,6 +16,7 @@ typedef enum
 	enemyRun,
 	enemyAtk,
 	enemySmitten,
+	enemyDeath,
 }EnemyState;
 
 #endif

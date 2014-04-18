@@ -51,6 +51,13 @@ void Hero::PlayState(HeroState state)
 			this->setheroState(heroSmitten);
 		}
 		break;
+	case heroDeath:
+		if (this->getheroState() != heroDeath)
+		{
+			FightSceneGlobal::instance()->getHeroArmature()->getAnimation()->play("death");
+			this->setheroState(heroDeath);
+		}
+		break;
 	}
 
 
