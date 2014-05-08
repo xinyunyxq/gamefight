@@ -12,6 +12,13 @@ Hero::Hero()
 	this->setAtkValue(20);
 	_hpBar = dynamic_cast<ui::LoadingBar*>(ui::UIHelper::seekWidgetByName(FightSceneGlobal::instance()->getUiLayer(),"hp01_LoadingBar"));
 	_mpBar = dynamic_cast<ui::LoadingBar*>(ui::UIHelper::seekWidgetByName(FightSceneGlobal::instance()->getUiLayer(),"mp01_LoadingBar"));
+
+	front=CCDrawNode::create();
+	CCPoint rect[4]={ccp(-25,10),ccp(25,10),ccp(25,-10),ccp(-25,-10)};
+	ccColor4F yellow = {1, 1, 0, 1};
+	front->drawPolygon(rect, 4, yellow, 0, yellow);
+	front->setPosition(FightSceneGlobal::instance()->getHeroArmature()->getParent()->getPosition());
+	FightSceneGlobal::instance()->getFightScene()->addChild(front,10);
 }
 
 Hero::~Hero(void)
@@ -66,6 +73,7 @@ void Hero::PlayState(HeroState state)
 
 CCRect Hero::getHeroArea(CCPoint heroPosition)
 {
+	front->setPosition(heroPosition);
 	return CCRectMake(heroPosition.x - 25,heroPosition.y - 10,50,20);
 }
 

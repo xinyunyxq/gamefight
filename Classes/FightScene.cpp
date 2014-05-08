@@ -55,6 +55,7 @@ bool FightScene::init()
 	hero = new Hero();
 	enemy = new Enemy();
 	this->setMovearea(CCRectMake(0,180,960,90));
+	inOrder = false;
 
 	FightSceneGlobal::instance()->getUbPlate()->addTouchEventListener(this, toucheventselector(FightScene::tbPlatePushDownCallback));
 	FightSceneGlobal::instance()->getUbAtk()->addTouchEventListener(this, toucheventselector(FightScene::tbAtkCallback));
@@ -62,6 +63,14 @@ bool FightScene::init()
 	//schedule(schedule_selector(FightScene::HeroUpdate));
 	scheduleUpdate();
     
+	/*CCDrawNode* front=CCDrawNode::create();
+	ccColor4F yellow = {1, 1, 0, 1};
+	CCPoint rect[4]={ccp(-30,30),ccp(30,30),ccp(30,-30),ccp(-30,-30)};
+	front->drawPolygon(rect, 4, yellow, 0, yellow);
+	front->setPosition(ccp(100, 100));
+	this->addChild(front);*/
+
+	
     return true;
 }
 
@@ -214,8 +223,44 @@ void FightScene::tbAtkCallback(cocos2d::CCObject *pSender,TouchEventType type)
 
 void FightScene::update(float delta)
 {
+	enemyAI();
 	HeroUpdate();
 	enemyUpdate();
+}
+
+void FightScene::enemyAI()
+{
+	int runChance;
+	int loadingChance;
+	if (inOrder == false)
+	{
+		if(enemy->inAtkRange())
+		{
+			runChance = 0;
+			loadingChance = 1;
+		}
+		else
+		{
+			runChance = 7;
+			loadingChance = 9;
+		}
+		int randomChoice = random_range(0, 10);
+		if(randomChoice < runChance)
+		{
+			enemy->PlayState(enemyRun);
+			inOrder = true;
+		}
+		else if (randomChoice < loadingChance)
+		{
+			enemy->PlayState(enemyLoading);
+			inOrder = true;
+		}
+		else
+		{
+			enemy->PlayState(enemyAtk);
+			inOrder = true;
+		}
+	}
 }
 
 void FightScene::enemyUpdate()
@@ -228,45 +273,86 @@ void FightScene::enemyUpdate()
 	{
 	case enemyRun:
 		{
-			CCPoint nextPosition = enemyPosition;
-			if(position.x > 150)
+			static int runOrderLast = 0;
+			if((runOrderLast > 80 && inOrder == true)||enemy->inAtkRange())
 			{
-				nextPosition.x = enemyPosition.x - 0.5 * enemy->getenemySpeed();
-				if(enemy->getisleft() == false)
-				{
-					enemy->setisleft(true);
-					FightSceneGlobal::instance()->getEnemyArmature()->setScaleX(1.0f);
-				}
-			}
-			if (position.x < -150)
-			{
-				nextPosition.x = enemyPosition.x + 0.5 * enemy->getenemySpeed();
-				if(enemy->getisleft() == true)
-				{
-					enemy->setisleft(false);
-					FightSceneGlobal::instance()->getEnemyArmature()->setScaleX(-1.0f);
-				}
-			}
-			if(position.y > 15)
-			{
-				nextPosition.y = enemyPosition.y - 0.5 * enemy->getenemySpeed();
-			}
-			if (position.y < -15)
-			{
-				nextPosition.y = enemyPosition.y + 0.5 * enemy->getenemySpeed();
-			}
-			if(enemy->getEnemyArea(nextPosition).intersectsRect(hero->getHeroArea(heroPosition)))
-			{
-
+				runOrderLast = 0;
+				inOrder = false;
 			}
 			else
 			{
-				enemyPosition = nextPosition;
+				runOrderLast ++;
+				CCPoint nextPosition = enemyPosition;
+				if(position.x > 150)
+				{
+					nextPosition.x = enemyPosition.x - 0.5 * enemy->getenemySpeed();
+					if(enemy->getisleft() == false)
+					{
+						enemy->setisleft(true);
+						FightSceneGlobal::instance()->getEnemyArmature()->setScaleX(1.0f);
+					}
+				}
+				if (position.x < -150)
+				{
+					nextPosition.x = enemyPosition.x + 0.5 * enemy->getenemySpeed();
+					if(enemy->getisleft() == true)
+					{
+						enemy->setisleft(false);
+						FightSceneGlobal::instance()->getEnemyArmature()->setScaleX(-1.0f);
+					}
+				}
+				if(position.y > 15)
+				{
+					nextPosition.y = enemyPosition.y - 0.5 * enemy->getenemySpeed();
+				}
+				if (position.y < -15)
+				{
+					nextPosition.y = enemyPosition.y + 0.5 * enemy->getenemySpeed();
+				}
+				if(enemy->getEnemyArea(nextPosition).intersectsRect(hero->getHeroArea(heroPosition)))
+				{
+
+				}
+				else
+				{
+					enemyPosition = nextPosition;
+				}
+				FightSceneGlobal::instance()->getEnemyArmature()->getParent()->setPosition(enemyPosition);
 			}
-			FightSceneGlobal::instance()->getEnemyArmature()->getParent()->setPosition(enemyPosition);
 		}
 		break;
 	case enemyAtk:
+		{
+			static bool check_once = true;
+			if(FightSceneGlobal::instance()->getEnemyArmature()->getAnimation()->getCurrentFrameIndex() == 10 && check_once == true)
+			{
+				check_once = false;
+				CCLog("ATK in 10 frame");
+				if(abs(heroPosition.y - enemyPosition.y) < 20 && abs(heroPosition.x-enemyPosition.x) < 220)
+				{
+					if ((enemyPosition.x > heroPosition.x && enemy->getisleft() == true)||(enemyPosition.x < heroPosition.x && enemy->getisleft() == false))
+					{
+						hero->PlayState(heroSmitten);
+						if (hero->getHpValue()-enemy->getAtkValue() < 0)
+						{
+							hero->setHpValue(0);
+						}
+						else
+						{
+							hero->setHpValue(hero->getHpValue()-enemy->getAtkValue());
+						}
+						hero->getHpBar()->setPercent(hero->getHpValue()*100/hero->getHpValueMax());
+					}
+
+				}
+			}
+			if (FightSceneGlobal::instance()->getEnemyArmature()->getAnimation()->getIsComplete())
+			{
+				check_once = true;
+				inOrder = false;
+				//enemy->PlayState(heroLoading);
+			}
+		}
 		break;
 	case enemySmitten:
 		if (FightSceneGlobal::instance()->getEnemyArmature()->getAnimation()->getIsComplete())
@@ -282,6 +368,16 @@ void FightScene::enemyUpdate()
 		}
 		break;
 	case enemyLoading:
+		static int loadingOrderLast = 0;
+		if(loadingOrderLast > 40 && inOrder == true)
+		{
+			loadingOrderLast = 0;
+			inOrder = false;
+		}
+		else
+		{
+			loadingOrderLast ++;
+		}
 		break;
 	}
 }
@@ -369,5 +465,18 @@ void FightScene::HeroUpdate()
 		}
 		
 	break;
+	case heroSmitten:
+		if (FightSceneGlobal::instance()->getHeroArmature()->getAnimation()->getIsComplete())
+		{
+			if (hero->getHpValue() <=0 )
+			{
+				hero->PlayState(heroDeath);
+			}
+			else
+			{
+				hero->PlayState(heroLoading);
+			}
+		}
+		break;
 	}
 }

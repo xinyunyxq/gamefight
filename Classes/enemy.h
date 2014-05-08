@@ -19,11 +19,13 @@ class Enemy
 	CC_SYNTHESIZE(int,_atkValue,AtkValue);
 	CC_SYNTHESIZE_READONLY(LoadingBar*,_hpBar,HpBar);
 	CC_SYNTHESIZE_READONLY(LoadingBar*,_mpBar,mpBar);
+	CCDrawNode* front;
 public:
 	Enemy();
 	~Enemy(void);
 	void PlayState(EnemyState state);
 	CCRect getEnemyArea(CCPoint enemyPosition);
+	bool inAtkRange();
 
 private:
 

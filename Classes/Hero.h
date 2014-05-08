@@ -19,6 +19,7 @@ class Hero
 	CC_SYNTHESIZE(int,_atkValue,AtkValue);
 	CC_SYNTHESIZE_READONLY(LoadingBar*,_hpBar,HpBar);
 	CC_SYNTHESIZE_READONLY(LoadingBar*,_mpBar,mpBar);
+	CCDrawNode* front;
 public:
 	Hero();
 	~Hero(void);

@@ -9,6 +9,8 @@ USING_NS_CC_EXT;
 USING_NS_CC;
 using namespace ui;
 
+#define random_range(low, high) (rand() % (high - low + 1)) + low
+
 class FightScene : public cocos2d::CCLayer
 {
 public:
@@ -36,6 +38,10 @@ public:
 	void HeroUpdate();
 	CCPoint getDir(UIButton* pbut,TouchEventType type);
 	float getDis(UIButton* pbut,TouchEventType type);
+	void enemyAI();
+
+private:
+	bool inOrder;
 };
 
 #endif // __HELLOWORLD_SCENE_H__
